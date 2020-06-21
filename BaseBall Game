@@ -1,0 +1,39 @@
+public int calPoints(String[] ops) {
+        
+      Stack<Integer> s = new Stack();
+      int score = 0;
+     
+       for(int i=0;i<ops.length;i++){
+         
+           if(ops[i].equals("C")){
+               
+              if(!s.isEmpty()){
+                 int num =  s.pop();
+                  score = score-num;
+              }
+               
+           }else if(ops[i].equals("D")){
+               int num = s.peek();
+               num = num*2;
+               s.push(num);
+               score = score+num;
+               
+           }else if(ops[i].equals("+")){
+               
+               int last = s.pop();
+               int last2 = s.pop();
+               //store
+               s.push(last2);
+               s.push(last);
+               int num = last+last2;
+               s.push(num);
+               score = score+num;
+           }else{
+              int num = Integer.parseInt(ops[i]);
+              s.push(num); 
+              score = score+num;
+           }
+          
+       } 
+       return score;
+    }
