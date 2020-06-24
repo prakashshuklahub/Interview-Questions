@@ -1,0 +1,64 @@
+You are given a string, s, and a list of words, words, that are all of the same length. Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
+
+ 
+
+Example 1:
+
+Input:
+  s = "barfoothefoobarman",
+  words = ["foo","bar"]
+Output: [0,9]
+Explanation: Substrings starting at index 0 and 9 are "barfoo" and "foobar" respectively.
+The output order does not matter, returning [9,0] is fine too.
+
+
+ public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> result = new ArrayList();
+        if(s.length()==0 || words.length==0)return result;
+        
+        HashMap<String,Integer> map1 = new HashMap();
+        
+        for(int i=0;i<words.length;i++){
+            map1.put(words[i],map1.getOrDefault(words[i],0)+1);
+            //foo 1 bar 1
+        }
+        
+        int t = words.length*words[0].length();  //6
+        int sl = words[0].length(); //3
+        
+        int i = 0;
+        while(i<=s.length()-t){//barfoothefoobarman
+            
+        String sub = s.substring(i,i+t);//barfoo 
+        HashMap<String,Integer> map2 = new HashMap();
+        int k = 0;
+        int n = 0;
+          while(k<words.length){
+          String temp = sub.substring(n,n+sl);
+          map2.put(temp,map2.getOrDefault(temp,0)+1);
+          //map2  = foo 1 bar 1
+          n = n+sl; 
+          k++;  
+          }
+        if(map1.equals(map2))result.add(i);
+          i++;  
+        }
+        return result;
+    
+}
+
+//Approach
+
+//HashMap<String,Integer>  map1  (step1)
+
+//foo 1
+//bar 1
+
+//barfoothefoobarman (step 2)
+
+//bar foo     map2 bar foo (step3)   == map1 (0) (step4)
+//arf oot     map2 arf oot (step3)   == map1  
+//rfo oth
+//...
+//..
+//bar man     map2 bar foo (step3)   == map1 
