@@ -1,0 +1,60 @@
+Given a string, sort it in decreasing order based on the frequency of characters.
+
+Example 1:
+
+Input:
+"tree"
+
+Output:
+"eert"
+
+Explanation:
+'e' appears twice while 'r' and 't' both appear once.
+So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
+
+
+public String frequencySort(String s) {
+        
+        int[] count = new int[256];
+        
+        for(int i=0;i<s.length();i++){ //Step 1
+            count[s.charAt(i)]++;
+        }
+        
+        PriorityQueue<Character> pq = new PriorityQueue<>((a, b) -> count[b] - count[a]);
+
+        //e t r 
+        
+        for(int i=0;i<count.length;i++){ //Step 2
+            pq.add((char)i); ////[e,t,r]
+        }
+        
+        StringBuilder b = new StringBuilder();
+        while(!pq.isEmpty()){
+            char c = pq.poll(); 
+            int times = count[c];
+            for(int i=0;i<times;i++){
+                b.append(c);//eetr
+            }
+        }
+        
+        return b.toString();
+    }
+
+
+//Approach
+
+//"tree"  
+//"eetr"
+
+//Step 1         Count[256];
+
+//........e t r
+//0 1 2 3 4 5 6 ...............................255
+//........2 1 1 ............5...................
+
+//Step 2 PriorityQueue
+//[e,t,r]
+
+//Step 3 Answer
+//eetr
