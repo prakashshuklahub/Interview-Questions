@@ -1,0 +1,46 @@
+Given an array of non-negative integers arr, you are initially positioned at start index of the array. When you are at index i, you can jump to i + arr[i] or i - arr[i], check if you can reach to any index with value 0.
+
+Notice that you can not jump outside of the array at any time.
+
+ 
+
+Example 1:
+
+Input: arr = [4,2,3,0,3,1,2], start = 5
+Output: true
+Explanation: 
+All possible ways to reach at index 3 with value 0 are: 
+index 5 -> index 4 -> index 1 -> index 3 
+index 5 -> index 6 -> index 4 -> index 1 -> index 3 
+
+
+ public boolean canReach(int[] arr, int start) {
+        
+        Stack<Integer> s = new Stack();
+        int[] seen = new int[arr.length];
+        s.add(start);
+        
+        
+        while(!s.isEmpty()){ 
+            
+            int m = s.pop();    //5
+            int l = m-arr[m];   //4
+            int r = m+arr[m];   //6
+            
+            
+            if(l>=0 && l<arr.length && seen[l]==0){ 
+               s.add(l); 
+               seen[l]=1;
+               if(arr[l]==0)return true;
+            }
+            
+            if(r>=0 && r<arr.length && seen[r]==0){
+               s.add(r);
+               seen[r]=1;
+               if(arr[r]==0)return true;
+            }
+            
+        }
+        return false;
+    }
+  
