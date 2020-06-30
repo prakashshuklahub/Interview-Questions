@@ -1,0 +1,75 @@
+Given an array of integers arr, you are initially positioned at the first index of the array.
+
+In one step you can jump from index i to index:
+
+i + 1 where: i + 1 < arr.length.
+i - 1 where: i - 1 >= 0.
+j where: arr[i] == arr[j] and i != j.
+Return the minimum number of steps to reach the last index of the array.
+
+Notice that you can not jump outside of the array at any time.
+
+ 
+
+Example 1:
+
+Input: arr = [100,-23,-23,404,100,23,23,23,3,404]
+Output: 3
+Explanation: You need three jumps from index 0 --> 4 --> 3 --> 9. Note that index 9 is the last index of the array.
+
+
+ public int minJumps(int[] arr) {
+        
+        if(arr.length==1)return 0;
+        int jump = 0;
+        int[] visited = new int[arr.length];
+        
+        HashMap<Integer,List<Integer>> map = new HashMap();
+        
+        for(int i=0;i<arr.length;i++){
+            if(map.containsKey(arr[i])){
+                 map.get(arr[i]).add(i);
+            }else{
+                map.put(arr[i],new ArrayList());
+                map.get(arr[i]).add(i);
+            }
+        }
+        
+        Queue<Integer> q = new ArrayDeque();
+        q.add(0);
+        visited[0]=1;
+        
+        while(!q.isEmpty()){
+            
+            int n = q.size();
+            for(int i=0;i<n;i++){
+               
+                int index = q.poll();
+                if(index==arr.length-1)return jump;
+                
+                if(index-1>=0 && index-1<arr.length && visited[index-1]==0){
+                    q.add(index-1);
+                    visited[index-1] =1;
+                }
+                
+                if(index+1>=0 && index+1<arr.length  && visited[index+1]==0){
+                    q.add(index+1);
+                     visited[index+1] =1;
+                }
+                
+                if(map.containsKey(arr[index])){
+                    for(int num : map.get(arr[index])){
+                        q.add(num);
+                        visited[num] =1;
+                    }
+                  map.remove(arr[index]);
+                }
+            }
+            
+        jump++;
+            
+        }
+        
+        return jump;
+    }
+}
