@@ -1,0 +1,38 @@
+Given a string s, a k duplicate removal consists of choosing k adjacent and equal letters from s and removing them causing the left and the right side of the deleted substring to concatenate together.
+
+We repeatedly make k duplicate removals on s until we no longer can.
+
+Return the final string after all such duplicate removals have been made.
+
+It is guaranteed that the answer is unique.
+
+ 
+
+Example 1:
+
+Input: s = "abcd", k = 2
+Output: "abcd"
+Explanation: There's nothing to delete.
+
+
+public String removeDuplicates(String s, int k) {
+        StringBuilder b = new StringBuilder(s);
+        int i = 0;
+        int count[] = new int[b.length()];
+        
+        while(i<b.length()){
+            
+          if(i==0 || b.charAt(i)!=b.charAt(i-1)){
+              count[i] = 1;
+          }else{
+             count[i] = count[i-1]+1;
+             if(count[i]==k){
+                 b.delete(i-k+1,i+1);
+                 i = i-k;
+             }
+          }
+            
+         i++;
+        }
+        return b.toString();
+    }
