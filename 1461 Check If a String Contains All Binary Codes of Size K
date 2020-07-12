@@ -1,0 +1,27 @@
+Given a binary string s and an integer k.
+
+Return True if every binary code of length k is a substring of s. Otherwise, return False.
+
+ 
+
+Example 1:
+
+Input: s = "00110110", k = 2
+Output: true
+
+ public static boolean hasAllCodes(String s, int k) {
+        int count  = 0;
+        int start = 0;
+        HashSet<String> seen = new HashSet<>();
+
+        for (int i=0;i<s.length();i++){
+            count++;
+            if (count==k){
+                seen.add(s.substring(start,k+start));
+                count--;
+                start++;
+            }
+        }
+        return seen.size()==Math.pow(2,k);;
+    }
+Explanation: The binary codes of length 2 are "00", "01", "10" and "11". They can be all found as substrings at indicies 0, 1, 3 and 2 respectively.
