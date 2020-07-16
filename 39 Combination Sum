@@ -1,0 +1,38 @@
+Given a set of candidate numbers (candidates) (without duplicates) and a target number (target), find all unique combinations in candidates where the candidate numbers sums to target.
+
+The same repeated number may be chosen from candidates unlimited number of times.
+
+Note:
+
+All numbers (including target) will be positive integers.
+The solution set must not contain duplicate combinations.
+Example 1:
+
+Input: candidates = [2,3,6,7], target = 7,
+A solution set is:
+[
+  [7],
+  [2,2,3]
+]
+
+
+ public List<List<Integer>> combinationSum(int[] candidates, int target) {
+         List<List<Integer>> subset = new ArrayList();
+        dfs(subset,0,candidates,new ArrayList(),target);
+        return subset;
+    }
+    
+     void dfs( List<List<Integer>> subset,int index,int[] candidates,List<Integer> current,int target){
+                
+                if(target<0)return;
+                if(target==0){
+                    subset.add(new ArrayList(current)); 
+                    return;
+                }
+               
+                for(int i=index;i<candidates.length;i++){
+                    current.add(candidates[i]);
+                    dfs(subset,i,candidates, current,target-candidates[i]);
+                    current.remove(current.size()-1);           
+                } 
+    }
