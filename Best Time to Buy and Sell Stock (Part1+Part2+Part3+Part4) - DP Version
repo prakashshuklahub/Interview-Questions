@@ -1,0 +1,45 @@
+//Design an algorithm to find the maximum profit. You may complete at most k transactions.
+
+//You may not engage in multiple transactions at the same time
+// (ie, you must sell the stock before you buy again).
+
+//BUY SELL STOCK PART1  1 TRANS
+//BUY SELL STOCK PART2  as many TRANS
+//BUY SELL STOCK PART3  2 TRANS
+//BUY SELL STOCK PART4  K TRANS
+
+
+static public int maxProfit(int k, int[] prices) {
+        if(k==0 || prices.length<2)return 0;
+        if(k>prices.length/2)k = prices.length/2;//4
+        int[] dp = new int[prices.length];
+
+        int min = prices[0] , p = 0;
+        for (int i=0;i<prices.length;i++){
+            min = Math.min(prices[i],min);
+            p = Math.max(prices[i]-min,p);
+            dp[i] = p;
+        }
+
+
+        for(int i=2;i<=k;i++){
+            int b2 = Integer.MAX_VALUE;
+            int p2 = 0;
+            for (int j=0;j<prices.length;j++){
+                b2 = Math.min(b2,prices[j]-dp[j]);
+                p2 = Math.max(p2,prices[j]-b2);
+                dp[j] = p2;
+            }
+        }
+
+        return printMax(dp);
+    }
+
+    static int printMax(int[] dp){
+        int max = 0;
+        for (int i=0;i<dp.length;i++){
+            max = Math.max(dp[i],max);
+        }
+        return max;
+    }
+}
