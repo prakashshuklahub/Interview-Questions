@@ -1,0 +1,40 @@
+
+Given a binary grid A of size N x M consisting of 0's and 1's, find the area of the largest rectangle inside the grid such that all the cells inside the chosen rectangle should have 1 in them.
+
+You are allowed to permutate the columns matrix i.e. you can arrange each of the column in any order in the final grid.
+
+Please follow the sample input and explanation for more clarity.
+
+
+public class Solution {
+    public int solve(int[][] A) {
+   
+    //add column height
+    for(int i=0;i<A.length;i++){
+        for(int j=0;j<A[0].length;j++){
+            if(i!=0 && A[i][j]!=0){
+                A[i][j] = A[i][j] + A[i-1][j];    
+            }
+        }
+    }
+
+    //sort every row
+    for(int i=0;i<A.length;i++){
+        Arrays.sort(A[i]);
+    }
+    
+    
+    //final area calculate
+      int maxArea = 0 , area = 0;
+      for(int i=0;i<A.length;i++){
+          int width = 1;
+        for(int j=A[0].length-1;j>=0;j--){ 
+           area = A[i][j]*width;  width++;
+           maxArea = Math.max(maxArea,area);
+        }
+      }
+      
+      return maxArea;
+   
+    }
+}
