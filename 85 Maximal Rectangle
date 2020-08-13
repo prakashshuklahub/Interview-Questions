@@ -1,0 +1,68 @@
+
+Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+
+Example:
+
+Input:
+[
+  ["1","0","1","0","0"],
+  ["1","0","1","1","1"],
+  ["1","1","1","1","1"],
+  ["1","0","0","1","0"]
+]
+Output: 6
+
+
+ public int maximalRectangle(char[][] matrix) {
+        
+    if(matrix.length==0)return 0;
+      
+       int[] h = new int[matrix[0].length];
+       int area = 0;
+       for(int i=0;i<matrix.length;i++){
+           for(int j=0;j<matrix[0].length;j++){
+               if(matrix[i][j]=='0'){
+                   h[j] = 0;
+               }else{
+                   h[j]++;
+               }
+           }
+           area = Math.max(area,largestRectangleArea(h));
+       }
+       return area;  
+    }
+    
+    
+    public int largestRectangleArea(int[] heights) {
+        
+    int[] left = new int[heights.length]; 
+    int[] right = new int[heights.length];
+    int[] width = new int[heights.length];
+    Stack<Integer> stack = new Stack();
+
+    for(int i=0;i<heights.length;i++){    
+     while(!stack.isEmpty() && heights[i]<=heights[stack.peek()]){
+        stack.pop();
+     }       
+     if(stack.isEmpty())left[i] = -1;
+     else left[i] = stack.peek();    
+     stack.add(i);
+     }
+    stack.clear();
+
+    for(int i=heights.length-1;i>=0;i--){       
+     while(!stack.isEmpty() && heights[i]<=heights[stack.peek()]){
+                stack.pop();
+     }  
+     if(stack.isEmpty())right[i] = heights.length;
+     else right[i] = stack.peek();       
+     stack.add(i);
+     }   
+     int area = 0;
+        
+     for(int i=0;i<heights.length;i++){
+        width[i] = right[i]-left[i]-1;
+        area = Math.max(heights[i]* width[i] ,area);
+      }   
+     return area;
+    }
