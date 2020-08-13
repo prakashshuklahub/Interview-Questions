@@ -1,0 +1,10 @@
+You are given a sequence of points and the order in which you need to cover the points.. Give the minimum number of steps in which you can achieve it. You start from the first point.
+
+ public int coverPoints(int[] A, int[] B) {
+        
+          int total = 0;
+          for(int i=1;i<A.length;i++){
+            total = total + Math.max(Math.abs(A[i]-A[i-1]),Math.abs(B[i]-B[i-1]));
+          }
+          return total;
+    }
