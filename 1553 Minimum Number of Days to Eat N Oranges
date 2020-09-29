@@ -1,0 +1,32 @@
+ public static int minDays(int n) {
+        
+     Queue q = new ArrayDeque();
+     q.add(n);//10 8 9
+     int count = 0;
+     int a = Integer.MAX_VALUE;
+     int b = Integer.MAX_VALUE;
+     int c = Integer.MAX_VALUE;
+    
+     Set seen = new HashSet();  
+        
+        
+     while(!q.isEmpty()){
+         int size = q.size();
+         count++;
+         for(int i=0;i<size;i++){
+             int temp = (int)q.poll();//10
+             a = temp-1;
+             q.add(a);
+             if(temp%2==0 && seen.add(temp/2)){
+                 b = temp/2;//5
+                 q.add(b);
+             }
+             if(temp%3==0 && seen.add(temp - 2*(temp/3))){ 
+                 c = temp - 2*(temp/3);
+                 q.add(c);
+             }
+             if(a==0||b==0||c==0)return count;
+         }
+     }
+        return count;
+    }
