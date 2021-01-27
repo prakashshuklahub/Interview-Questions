@@ -1,0 +1,60 @@
+Given a string s and a non-empty string p, find all the start indices of p's anagrams in s.
+
+Strings consists of lowercase English letters only and the length of both strings s and p will not be larger than 20,100.
+
+The order of output does not matter.
+
+Example 1:
+
+Input:
+s: "cbaebabacd" p: "abc"
+
+Output:
+[0, 6]
+
+Explanation:
+The substring with start index = 0 is "cba", which is an anagram of "abc".
+The substring with start index = 6 is "bac", which is an anagram of "abc".
+
+
+********* Optimal Solution ***************
+
+
+public List<Integer> findAnagrams(String s, String p) {
+        
+        int[] pCount  = new int[256];
+        List<Integer> res = new ArrayList();
+        
+        for(char c :p.toCharArray()){
+            pCount[c]++;
+        }
+        
+        int count = 0;
+        int left = 0;
+        
+        for(int right=0;right<s.length();right++){ 
+            char c = s.charAt(right);
+            pCount[c]--;  
+            if(pCount[c]+1>0){ 
+                count++;
+            }
+            
+            while(count==p.length()){ 
+                
+                if(right-left+1==p.length()){
+                    res.add(left);
+                }
+                
+                char temp = s.charAt(left);
+                pCount[temp]++; 
+                if(pCount[temp]-1>=0){ 
+                  count--; 
+                }
+                left++;
+            }
+          }
+         return res;
+      }
+      
+      
+      //Video solution (hindi) in my youtube channel
