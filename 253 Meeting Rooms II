@@ -1,0 +1,36 @@
+Given an array of meeting time intervals intervals where intervals[i] = [starti, endi], return the minimum number of conference rooms required.
+
+
+Example 1:
+
+Input: intervals = [[0,30],[5,10],[15,20]]
+Output: 2
+Example 2:
+
+Input: intervals = [[7,10],[2,4]]
+Output: 1
+
+ public int minMeetingRooms(int[][] intervals) {
+           
+        Arrays.sort(intervals,(a,b)->Integer.compare(a[0],b[0]));
+        PriorityQueue<Integer> p = new PriorityQueue();//O(n)
+        
+        for(int[] interval : intervals){
+            
+            if(p.isEmpty()){
+                p.add(interval[1]);
+                continue;
+            }
+            
+            if(p.peek()<=interval[0]){//same room
+                p.remove();
+            }
+            
+            p.add(interval[1]); //O(nlogn)
+        }
+        
+        return p.size();
+            
+        
+        
+    }
